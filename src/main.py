@@ -1,4 +1,4 @@
-from textnode import TextNode
+from textnode import TextNode, TextType
 
 def main():
     dummy = TextNode("Dummy", "Plain", "Test.html")
