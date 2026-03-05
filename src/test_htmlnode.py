@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -67,6 +67,25 @@ class TestHTMLNode(unittest.TestCase):
             node.__repr__(),
             "HTMLNode(p, Testing the tests, children: [HTMLNode(None, None, children: None, None)], {'test': 'This is a major attribute test', 'what': 'Adding more attributes', 'Too many': 'Not Enough', 'href': 'Boot.dev'})"
         )
+
+    def test_leaf_to_html_p(self):
+        node = LeafNode("p", "Hello, world!")
+        self.assertEqual(node.to_html(), "<p>Hello, world!</p>")
+        node2 = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+        self.assertEqual(node2.to_html(), '<a href="https://www.google.com">Click me!</a>')
+        node3 = LeafNode("b", "")
+        node4 = LeafNode("", "There is no tag text")
+        self.assertEqual(node4.to_html(), "There is no tag text")
+        try:
+            node3.to_html()
+        except Exception as e:
+            self.assertEqual(e.args[0], "All leaf nodes must have value")
+
+    def test_leaf_repr(self):
+        node = LeafNode("p", "Hello, world!")
+        node2 = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+        self.assertEqual(node.__repr__(),'LeafNode(p, Hello, world!, None)')
+        self.assertEqual(node2.__repr__(),"LeafNode(a, Click me!, {'href': 'https://www.google.com'})")
 
 
 if __name__ == "__main__":
