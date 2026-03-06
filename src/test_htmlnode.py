@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -78,6 +78,7 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(node4.to_html(), "There is no tag text")
         try:
             node3.to_html()
+            self.assertEqual("Node 3 should have failed",0)
         except Exception as e:
             self.assertEqual(e.args[0], "All leaf nodes must have value")
 
@@ -86,6 +87,75 @@ class TestHTMLNode(unittest.TestCase):
         node2 = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
         self.assertEqual(node.__repr__(),'LeafNode(p, Hello, world!, None)')
         self.assertEqual(node2.__repr__(),"LeafNode(a, Click me!, {'href': 'https://www.google.com'})")
+
+    def test_parent_node_to_html_with_children(self):
+        child_node = LeafNode("span", "child")
+        child_node_failure = LeafNode("b", "")
+        parent_node = ParentNode("div", [child_node])
+        self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
+        parent_node2 = ParentNode("",[child_node])
+        try:
+            parent_node2.to_html()
+            self.assertEqual("Parent_Node2 should have failed",0)
+        except Exception as e:
+            self.assertEqual(e.args[0], "All Parent nodes must have a tag")
+        parent_node3 = ParentNode("b",[])
+        try:
+            parent_node3.to_html()
+            self.assertEqual("Parent_Node3 should have failed",0)
+        except Exception as e:
+            self.assertEqual(e.args[0], "All Parent node must have minimum 1 child")
+        parent_node4 = ParentNode("b", [child_node], {"href": "https://www.google.com"})
+        self.assertEqual(parent_node4.to_html(), '<b href="https://www.google.com"><span>child</span></b>')
+        parent_node5 = ParentNode("h", [child_node_failure])
+        try:
+            parent_node5.to_html()
+            self.assertEqual("Parent_node5 children should have failed",0)
+        except Exception as e:
+            self.assertEqual(e.args[0], "All leaf nodes must have value")
+
+    def test_parent_node_to_html_with_grandchildren(self):
+        grandchild_node = LeafNode("b", "grandchild")
+        grandchild_node_failure = LeafNode("b", "")
+        child_node = ParentNode("span", [grandchild_node])
+        child_node2 = ParentNode("div", [grandchild_node_failure])
+        child_parent_failure = ParentNode("", [child_node])
+        child_parent_tag = ParentNode("a", [child_node], {"href": "https://www.google.com"})
+        parent_node = ParentNode("div", [child_node])
+        parent_node2 = ParentNode("span", [child_node2])
+        parent_node3 = ParentNode("div", [child_parent_failure])
+        parent_node4 = ParentNode("div", [child_parent_tag])
+        self.assertEqual(
+            parent_node.to_html(),
+            "<div><span><b>grandchild</b></span></div>",
+        )
+        try:
+            parent_node2.to_html()
+            self.assertEqual("Parent_node2 grandchildren shoudl have failed",0)
+        except Exception as e:
+            self.assertEqual(e.args[0], "All leaf nodes must have value")
+        try:
+            child_parent_failure.to_html()
+            self.assertEqual("parent in child_parent_failure should have failed")
+        except Exception as e:
+            self.assertEqual(e.args[0], "All Parent nodes must have a tag")
+        try:
+            parent_node3.to_html()
+            self.assertEqual("child in child_parent_failure should have failed")
+        except Exception as e:
+            self.assertEqual(e.args[0], "All Parent nodes must have a tag")
+        self.assertEqual(
+            child_parent_tag.to_html(),
+            '<a href="https://www.google.com"><span><b>grandchild</b></span></a>'
+        )
+        self.assertEqual(
+            parent_node4.to_html(),
+            '<div><a href="https://www.google.com"><span><b>grandchild</b></span></a></div>'
+        )
+        
+        
+
+
 
 
 if __name__ == "__main__":
