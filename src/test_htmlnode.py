@@ -73,8 +73,8 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(node.to_html(), "<p>Hello, world!</p>")
         node2 = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
         self.assertEqual(node2.to_html(), '<a href="https://www.google.com">Click me!</a>')
-        node3 = LeafNode("b", "")
-        node4 = LeafNode("", "There is no tag text")
+        node3 = LeafNode("b", None)
+        node4 = LeafNode(None, "There is no tag text")
         self.assertEqual(node4.to_html(), "There is no tag text")
         try:
             node3.to_html()
@@ -90,16 +90,16 @@ class TestHTMLNode(unittest.TestCase):
 
     def test_parent_node_to_html_with_children(self):
         child_node = LeafNode("span", "child")
-        child_node_failure = LeafNode("b", "")
+        child_node_failure = LeafNode("b", None)
         parent_node = ParentNode("div", [child_node])
         self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
-        parent_node2 = ParentNode("",[child_node])
+        parent_node2 = ParentNode(None,[child_node])
         try:
             parent_node2.to_html()
             self.assertEqual("Parent_Node2 should have failed",0)
         except Exception as e:
             self.assertEqual(e.args[0], "All Parent nodes must have a tag")
-        parent_node3 = ParentNode("b",[])
+        parent_node3 = ParentNode("b",None)
         try:
             parent_node3.to_html()
             self.assertEqual("Parent_Node3 should have failed",0)
@@ -116,10 +116,10 @@ class TestHTMLNode(unittest.TestCase):
 
     def test_parent_node_to_html_with_grandchildren(self):
         grandchild_node = LeafNode("b", "grandchild")
-        grandchild_node_failure = LeafNode("b", "")
+        grandchild_node_failure = LeafNode("b", None)
         child_node = ParentNode("span", [grandchild_node])
         child_node2 = ParentNode("div", [grandchild_node_failure])
-        child_parent_failure = ParentNode("", [child_node])
+        child_parent_failure = ParentNode(None, None)
         child_parent_tag = ParentNode("a", [child_node], {"href": "https://www.google.com"})
         parent_node = ParentNode("div", [child_node])
         parent_node2 = ParentNode("span", [child_node2])
