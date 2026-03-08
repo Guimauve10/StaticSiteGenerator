@@ -20,7 +20,7 @@ class TestTextNode(unittest.TestCase):
     def test_text(self):
         node = TextNode("This is a text node", TextType.TEXT)
         node2 = TextNode("This is a bold text node", TextType.BOLD)
-        node3 = TextNode("This is a italic text node", TextType.ITALICT)
+        node3 = TextNode("This is a italic text node", TextType.ITALIC)
         node4 = TextNode("This is a code text node", TextType.CODE)
         node5 = TextNode("This is a link text node", TextType.LINK, "Boot.dev")
         node6 = TextNode("This is a image text node", TextType.IMAGE, "Boot.dev")

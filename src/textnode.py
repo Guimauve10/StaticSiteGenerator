@@ -4,7 +4,7 @@ from htmlnode import LeafNode
 class TextType(Enum):
     TEXT = "text"
     BOLD = "bold"
-    ITALICT = "italic"
+    ITALIC = "italic"
     CODE = "code"
     LINK = "link"
     IMAGE = "image"
@@ -32,7 +32,7 @@ def text_node_to_html_node(text_node):
             return LeafNode(None, text_node.text)
         case (TextType.BOLD):
             return LeafNode("b", text_node.text)
-        case (TextType.ITALICT):
+        case (TextType.ITALIC):
             return LeafNode("i", text_node.text)
         case (TextType.CODE):
             return LeafNode("code", text_node.text)
