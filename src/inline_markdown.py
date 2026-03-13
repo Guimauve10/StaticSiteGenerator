@@ -1,11 +1,6 @@
 import re
-from enum import Enum
-from textnode import TextType, TextNode
 
-class MarkdownType(Enum):
-    BOLD = "**"
-    ITALIC = "_"
-    CODE = "`"
+from textnode import TextType, TextNode
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type): # old_nodes - List / delimiter - string / text_type - TextType
     new_nodes = []
