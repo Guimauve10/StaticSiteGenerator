@@ -51,3 +51,6 @@ class ParentNode(HTMLNode):
             total += child.to_html()
         total += f"</{self.tag}>"
         return total
+    
+    def __repr__(self):
+        return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
