@@ -3,7 +3,7 @@ import shutil
 
 from constants import *
 from textnode import TextNode, TextType
-from StaticSiteGenerator.src.gencontent import generate_page
+from gencontent import generate_page
 
 def main():
     delete_public_files()

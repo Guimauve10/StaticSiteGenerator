@@ -1,6 +1,6 @@
 import unittest
 
-from StaticSiteGenerator.src.gencontent import extract_title
+from gencontent import extract_title
 
 class TestFunctions(unittest.TestCase):
     def test_extract_title(self):
