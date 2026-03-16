@@ -3,10 +3,12 @@ import shutil
 
 from constants import *
 from textnode import TextNode, TextType
+from StaticSiteGenerator.src.gencontent import generate_page
 
 def main():
     delete_public_files()
-    copy_file_from_path(STATIC_LOCATION, PUBLIC_LOCATION)      
+    copy_file_from_path(STATIC_LOCATION, PUBLIC_LOCATION)
+    generate_page(os.path.join(CONTENT_LOCATION, "index.md"), TEMPLATE_LOCATION, os.path.join(PUBLIC_LOCATION, "index.html"))
 
 def delete_public_files():
     print("Deleted public folder")

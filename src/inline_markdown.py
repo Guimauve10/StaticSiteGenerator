@@ -14,7 +14,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type): # old_nodes - List /
         split_nodes = []
         sections = node.text.split(delimiter) # list of text that needs to become text Node
         if len(sections) % 2 == 0:
-            raise Exception("Invalid Markdown syntax, formatted section not closed")
+            raise Exception(f"Invalid Markdown syntax, formatted section not closed: {node.text}")
         for i in range(len(sections)):
             if sections[i]== "":
                 continue

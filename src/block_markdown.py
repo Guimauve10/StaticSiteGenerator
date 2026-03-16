@@ -47,6 +47,7 @@ def block_to_block_type(markdown):
     return BlockType.PARAGRAPH
 
 def markdown_to_html_node(markdown): # match case could all be seperated into their own function and the inside of the for block could also be another helper function for ease of readability
+    print("Transforming markdown to HTML")
     blocks = markdown_to_blocks(markdown)
     list_of_nodes = []
     for block in blocks:
