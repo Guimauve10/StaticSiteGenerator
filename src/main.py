@@ -3,12 +3,13 @@ import shutil
 
 from constants import *
 from textnode import TextNode, TextType
-from gencontent import generate_page
+from gencontent import generate_pages_recursive
 
 def main():
+    print(os.listdir(CONTENT_LOCATION))
     delete_public_files()
     copy_file_from_path(STATIC_LOCATION, PUBLIC_LOCATION)
-    generate_page(os.path.join(CONTENT_LOCATION, "index.md"), TEMPLATE_LOCATION, os.path.join(PUBLIC_LOCATION, "index.html"))
+    generate_pages_recursive(CONTENT_LOCATION, TEMPLATE_LOCATION, PUBLIC_LOCATION)
 
 def delete_public_files():
     print("Deleted public folder")
