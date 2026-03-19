@@ -1,15 +1,19 @@
 import os
 import shutil
+import sys
 
 from constants import *
 from textnode import TextNode, TextType
 from gencontent import generate_pages_recursive
 
 def main():
-    print(os.listdir(CONTENT_LOCATION))
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+    else:
+        basepath = "/"
     delete_public_files()
     copy_file_from_path(STATIC_LOCATION, PUBLIC_LOCATION)
-    generate_pages_recursive(CONTENT_LOCATION, TEMPLATE_LOCATION, PUBLIC_LOCATION)
+    generate_pages_recursive(CONTENT_LOCATION, TEMPLATE_LOCATION, PUBLIC_LOCATION, basepath)
 
 def delete_public_files():
     print("Deleted public folder")

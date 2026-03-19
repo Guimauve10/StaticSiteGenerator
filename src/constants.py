@@ -1,4 +1,4 @@
-PUBLIC_LOCATION = "./public"
+PUBLIC_LOCATION = "./docs"
 STATIC_LOCATION = "./static"
 CONTENT_LOCATION = "./content"
 TEMPLATE_LOCATION = "./template.html"
